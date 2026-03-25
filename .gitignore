@@ -1,3 +1,10 @@
+# Project Specific
+gmt.conf
+gmt.history
+data/
+output/
+test/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

@@ -1,0 +1,6 @@
+numpy
+pyxtf
+pyproj
+pyyaml
+tqdm
+matplotlib
