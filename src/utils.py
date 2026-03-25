@@ -4,15 +4,8 @@ from pyproj import Proj, CRS
 from typing import List, Tuple, Any
 
 
-def load_xtf(xtf_file_path: str):
-    """Extract XTF ping data from XTF file 
-
-    Args:
-        xtf_file_path (str): XTF file path 
-
-    Returns:
-        tuple: (file_header, xtf_pings)
-    """
+def load_xtf(xtf_file_path: str) -> Tuple[Any, Any, List[Any]]:
+    """Extract XTF ping data from XTF file"""
     if not os.path.exists(xtf_file_path):
         raise FileNotFoundError("Invalid Path", xtf_file_path)
     elif not xtf_file_path.endswith('.xtf'):
@@ -43,7 +36,7 @@ def beam_pattern_from_gamma(
     return np.power(x / np.sin(x), 4)
 
 
-def tvg_gain(r: np.ndarray, k: float=2.0, alpha: float=0.0) -> np.ndarray:
+def tvg_gain(r: np.ndarray, k: float = 1.0, alpha: float = 0.0) -> np.ndarray:
     """Time-Varying Gain correction"""
     alpha_lin = np.log(10) * alpha / 20.0
     return np.power(r, k) * np.exp(alpha_lin * r)
@@ -60,17 +53,12 @@ def compute_theta_gamma(r: np.ndarray, h: np.ndarray, eps: float = 1e-6) -> Tupl
     return theta, gamma
 
 
-def get_bounds(xtf_pings: List[Any], epsg_code: int = 25831, sonar_rpy_rad: bool = False) -> Tuple[float, float, float, float]:
-    """Calculates geographical bounds from XTF pings
-    
-    Args:
-        xtf_pings: Input XTF ping data 
-        epsg_code: EPSG code for coordinate system (default: 25831)
-        sonar_rpy_rad: Whether RPY is in radians (default: False, assumes degrees)
-        
-    Returns:
-        Tuple of (lon_min, lon_max, lat_min, lat_max)
-    """
+def get_bounds(
+    xtf_pings: List[Any],
+    epsg_code: int = 25831,
+    is_radians: bool = False
+) -> Tuple[float, float, float, float]:
+    """Calculates geographical bounds from XTF pings"""
     lonlat_to_EN = Proj(CRS.from_epsg(epsg_code), preserve_units=False)
     ping_info = xtf_pings[0].ping_chan_headers[0]
 
@@ -95,7 +83,7 @@ def get_bounds(xtf_pings: List[Any], epsg_code: int = 25831, sonar_rpy_rad: bool
     east, north = lonlat_to_EN(longitude, latitude)
     altitude = np.asarray(altitude).reshape(num_pings, 1)
 
-    if not sonar_rpy_rad:
+    if not is_radians:
         roll, pitch, yaw = np.radians(roll), np.radians(pitch), np.radians(yaw)
 
     bins = np.arange(num_samples).reshape(1, num_samples)
@@ -153,7 +141,8 @@ def get_bounds(xtf_pings: List[Any], epsg_code: int = 25831, sonar_rpy_rad: bool
     return lon_min, lon_max, lat_min, lat_max
 
 
-def inspect_xtf(file_name, fh, packet, output_dir):
+def inspect_xtf(file_name: str, fh: Any, packet: Any, output_dir: str):
+    """Inspect XTF file and save diagnostic information to a text file"""
     label = '.'.join(file_name.split("/")[-1].split(".")[:-1])
     output_path = f"{output_dir}/{label}_stats.txt"
 
