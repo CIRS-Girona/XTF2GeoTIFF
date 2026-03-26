@@ -22,5 +22,5 @@ corrections:
 mbsystem:
   grid_resolution: 0.45   # In meters
   epsg_code: 25831        # Target coordinate system
-  clip_percent: 10        # Spline interpolation factor
+  clip_percent: 10        # The maximum distance from data points used for spline interpolation
   colormap: "gray"        # For a list of colormaps: https://docs.generic-mapping-tools.org/6.2/cookbook/cpts.html

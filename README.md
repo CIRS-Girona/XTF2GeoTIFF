@@ -46,10 +46,10 @@ Edit `config.yaml` to match your sonar hardware and survey requirements.
 ```yaml
 corrections:
   install_angle: 30.0   # Sonar tilt angle
-  percentile_clip: 1.5  # Removes top/bottom 1.5% of intensities for better contrast
+
 mbsystem:
-  grid_resolution: 0.1  # 10cm resolution per pixel in the output GeoTIFF
-  epsg_code: 25831      # Target coordinate system
+  grid_resolution: 0.45  # 45cm resolution per pixel in the output GeoTIFF (limited by XTF bin size)
+  epsg_code: 25831       # Target coordinate system
 ```
 
 ### 2. Run the Pipeline
