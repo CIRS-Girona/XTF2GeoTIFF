@@ -1,7 +1,7 @@
 # General Settings
 input_dir: "data/"
 output_dir: "output/"
-num_workers: 8
+num_workers: 6
 
 # Pipeline Execution Flags
 pipeline:

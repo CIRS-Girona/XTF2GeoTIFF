@@ -28,9 +28,9 @@ def run_mbsystem_processing(
     bounds_str = f"-R{lon_min}/{lon_max}/{lat_min}/{lat_max}"
 
     # Output grid name
-    grid_name = os.path.join(output_dir, f"{label}")
+    filename = os.path.join(output_dir, f"{label}")
     try:
-        # Run mbmosaic
+        grd_file = f"{filename}.grd"
         subprocess.run((
             "./mbs.sh",
             "mbmosaic",
@@ -40,14 +40,13 @@ def run_mbsystem_processing(
             f"-C{clip}",                            # Clip for spline interpolation
             "-N",                                   # Set empty cells to NaN
             f"-E{resolution}/{resolution}/meters",  # Grid resolution
-            f"-O{grid_name}"                        # Output prefix
+            f"-O{filename}"                        # Output prefix
         ), capture_output=True, text=True, check=True)
 
-        grd_file = f"{grid_name}.grd"
         if not os.path.exists(grd_file):
             raise FileNotFoundError(f"Grid file not found: {grd_file}")
 
-        cpt_file = f"{grid_name}.cpt"
+        cpt_file = f"{filename}.cpt"
         with open(cpt_file, 'w') as f:
             subprocess.run((
                 "./mbs.sh",
@@ -60,7 +59,7 @@ def run_mbsystem_processing(
         if not os.path.exists(cpt_file):
             raise FileNotFoundError(f"CPT file not found: {cpt_file}")
 
-        tif_file = f"{grid_name}.tif"
+        tif_file = f"{filename}.tif"
         subprocess.run((
             "./mbs.sh",
             "gmt",
