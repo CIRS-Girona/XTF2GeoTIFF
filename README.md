@@ -1,10 +1,10 @@
-# XTF2TIF
+# XTF2GeoTIFF
 
 <div align="center">
   <img src="assets/asset.png" alt="A sample output example">
 </div>
 
-**XTF2TIF** is a Python-based processing pipeline designed to transform Side Scan Sonar (SSS) XTF files into high-resolution, georeferenced GeoTIFFs. It bridges the gap between raw sonar data and GIS-ready products by combining custom Python intensity corrections with the robust gridding power of **MB-System**.
+**XTF2GeoTIFF** is a Python-based processing pipeline designed to transform Side Scan Sonar (SSS) XTF files into high-resolution, georeferenced GeoTIFFs. It bridges the gap between raw sonar data and GIS-ready products by combining custom Python intensity corrections with the robust gridding power of **MB-System**.
 
 ## 🚀 Key Features
 
